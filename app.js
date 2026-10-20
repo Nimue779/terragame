@@ -57,7 +57,7 @@ const storyData = {
     door_fail: {
         text: "You strain with all your might, but the heavy steel doesn't budge. Your arms burn from the effort, and you decide you need a better way through.",
         choices: [
-            { text: "Try something else", nextNode: "manual_release" }
+            { text: "Try something else", nextNode: "stasis_pod" }
         ]
     },
     command_bridge: {
