@@ -49,9 +49,9 @@ const storyData = {
         ]
     },
     door_fail: {
-        text: "You strain with all your might, but the heavy steel doesn't budge. Your burn from the effort, and you decide you need a better way through.",
+        text: "You strain with all your might, but the heavy steel doesn't budge. Your arms burn from the effort, and you decide you need a better way through.",
         choices: [
-            { text: "Try something else", nextNode: "mnual_release" }
+            { text: "Try something else", nextNode: "manual_release" }
         ]
     },
     command_bridge: {
@@ -93,7 +93,7 @@ function showScene(nodeId) {
         button.addEventListener('click', () => {
 
             //adds items rewarded from choices that player does not already have
-            if (choice.addItem && playerInventory.includes(choice,addItem)) {
+            if (choice.addItem && !playerInventory.includes(choice.addItem)) {
                 playerInventory.push(choice.addItem);
             }
             showScene(choice.nextNode);
@@ -107,7 +107,7 @@ function showScene(nodeId) {
         inventoryElement.innerText = "Inventory: Empty";
     } else {
         inventoryElement.innerText = "Inventory: " + playerInventory.join(", ");
-        
+
     }
 
 }
