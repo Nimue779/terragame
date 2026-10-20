@@ -31,7 +31,7 @@ const storyData = {
         text: "The screen flashes text through static: 'CRITICAL ERROR - Sector 4 depressurized. Crew status: UNKNOWN. Life support failing in 45 minutes.'",
         choices: [
             { text: "Back to pod door", nextNode: "stasis_pod" },
-            { text: "Try to override the door control using the keypad", nextNode: "keypad_hack"}
+            { text: "Try to open the door using the keycard", nextNode: "command_bridge"}
         ]
     },
     manual_release: {
