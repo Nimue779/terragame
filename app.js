@@ -1,6 +1,7 @@
 //gets the html elements
 const textElement = document.getElementById('text');
 const buttonBox = document.getElementById('button-box');
+const inventoryElement = document.getElementById('inventory-bar');
 
 //what items players are holding
 let playerInventory = [];
@@ -11,6 +12,18 @@ const storyData = {
         text: "You open your eyes. Cold air fills your lungs. Emergency red lights pulse across the stasis bay. The stasis pod glass is frosted over, and the door lock is flashing red.",
         choices: [
             { text: "Examine the diagnostic screen on the wall", nextNode: "diagnostic_screen" },
+            { 
+                text: "Search the technician's pocket. (take keycard)",
+                nextNode: "got_keycard",
+                addItem: "Keycard" //adds to inventory
+            },
+            { text: "Smash the emergency manual release lever", nextNode: "manual_release" }
+        ]
+    },
+    got_keycard: {
+        text: "You slide the keycard out of the technician's cold fingers and into your suit pocket. It clinks softly, and the pod door is still flashing red.",
+        choices: [
+            { text: "Examine the diagnostics screen", nextNode: "diagnostic_screen" },
             { text: "Smash the emergency manual release lever", nextNode: "manual_release" }
         ]
     },
@@ -22,15 +35,23 @@ const storyData = {
         ]
     },
     manual_release: {
-        text: "You slam your shoulder against the lever. With a loud hiss, the pod glass pops open! You step out onto the cold metal floor of the Astrea.",
+        text: "You slam your shoulder against the lever. With a loud hiss, the pod glass pops open! You step out onto the cold metal floor of the Astrea, fcaing the heavy security vault door.",
         choices: [
-            { text: "Head towards the command bridge", nextNode: "command_bridge" },
+            { 
+                text: "Try to swipe your Maintenance Keycard to open the vault door",
+                nextNode: "command_bridge",
+                requiredItem: "Keycard" //this choice only appears if you have the keycard
+            }, 
+            {
+                text: "Try to pry the vault open with your bare hands.",
+                nextNode: "door_fail"
+            }
         ]
     },
-    keypad_hack: {
-        text: "You punch in the default maintenace code (0000). The screen beeps happily: 'Override accepted.' The pod door slides open!",
+    door_fail: {
+        text: "You strain with all your might, but the heavy steel doesn't budge. Your burn from the effort, and you decide you need a better way through.",
         choices: [
-            { text: "Head towards the command bridge", nextNode: "command_bridge" }
+            { text: "Try something else", nextNode: "mnual_release" }
         ]
     },
     command_bridge: {
@@ -50,6 +71,7 @@ const storyData = {
 
 //kicks off the start of the story
 function startGame() {
+    playerInventory = []; //resets inventory
     showScene("stasis_pod");
 }
 //updates screen with new choices
@@ -59,15 +81,34 @@ function showScene(nodeId) {
     buttonBox.innerHTML = "";
     //loops through previuos commands for each option
     currentScene.choices.forEach(choice => {
+
+        //if a choice requires an item a player doesnt have, dont show the choice
+        if (choice.requiredItem && !playerInventory.includes(choice.requiredItem)) {
+            return;
+        }
+
         const button = document.createElement('button');
         button.innerText = choice.text;
 
         button.addEventListener('click', () => {
+
+            //adds items rewarded from choices that player does not already have
+            if (choice.addItem && playerInventory.includes(choice,addItem)) {
+                playerInventory.push(choice.addItem);
+            }
             showScene(choice.nextNode);
         });
 
         buttonBox.appendChild(button);
     });
+
+    //update inventory box at top of screen
+    if (playerInventory.length === 0) {
+        inventoryElement.innerText = "Inventory: Empty";
+    } else {
+        inventoryElement.innerText = "Inventory: " + playerInventory.join(", ");
+        
+    }
 
 }
 
