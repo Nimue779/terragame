@@ -1,5 +1,5 @@
 //gets the html elements
-const techElement = Document.getElementById('text');
+const techElement = document.getElementById('text');
 const buttonBox = document.getElementById('button-box');
 
 //holds storyline
@@ -47,7 +47,7 @@ const storyData = {
 
 //kicks off the start of the story
 function startGame() {
-    showScene(stasis_pod);
+    showScene("stasis_pod");
 }
 //updates screen with new choices
 function showScene(nodeId) {
