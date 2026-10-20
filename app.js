@@ -3,6 +3,12 @@ const textElement = document.getElementById('text');
 const buttonBox = document.getElementById('button-box');
 const inventoryElement = document.getElementById('inventory-bar');
 
+//stats section
+const statsElement = document.getElementById('stats-bar');
+
+let oxygen = 100;
+let health =100;
+
 //what items players are holding
 let playerInventory = [];
 
@@ -80,10 +86,28 @@ function showScene(nodeId) {
     //resets inventory when returning to stasis pod
     if (nodeId === "stasis_pod") {
         playerInventory = [];
+        oxygen = 100;
+        health =100;
     }
+
+    //check for game over (dying from low oxygen or health)
+    if (oxygen <= 0 || health <= 0) {
+        textElement.innerText = "CRITICAL FAILURE: Life support exhausted or vital sign stopped. You died.";
+        buttonBox.innerHTML = "";
+
+        const restartBTN = document.createElement('button');
+        restartBTN.innerText = "Restart Simulation";
+        restartBTN.addEventListener('click', () => showScene("stasis_pod"));
+        buttonBox.appendChild(restartBTN);
+
+        statsElement.innerText = "Oxygen: 0% | Health: 0%";
+        return; //stops showing the regular scene
+    }
+
     const currentScene = storyData[nodeId];
     textElement.innerText = currentScene.text;
     buttonBox.innerHTML = "";
+
     //loops through previuos commands for each option
     currentScene.choices.forEach(choice => {
 
@@ -101,11 +125,22 @@ function showScene(nodeId) {
             if (choice.addItem && !playerInventory.includes(choice.addItem)) {
                 playerInventory.push(choice.addItem);
             }
+
+            //oxygen drops by 10%
+            oxygen -= choice.oxygenCost !== undefined ? choice.oxygenCost : 10;
+
+            //restore oxygen if the choice says
+            if (choice.oxygenBoost) {
+                oxygen = Math.min(100, oxygen + choice.oxygenBoost);
+            }
             showScene(choice.nextNode);
         });
 
         buttonBox.appendChild(button);
     });
+
+    //update stats display
+    statsElement.innerText = `Oxygen: ${oxygen}% | Health: ${health}%`;
 
     //update inventory box at top of screen
     if (playerInventory.length === 0) {
