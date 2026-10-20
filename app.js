@@ -2,6 +2,9 @@
 const textElement = document.getElementById('text');
 const buttonBox = document.getElementById('button-box');
 
+//what items players are holding
+let playerInventory = [];
+
 //holds storyline
 const storyData = {
     stasis_pod: {

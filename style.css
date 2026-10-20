@@ -42,3 +42,11 @@ button:hover {
     background-color: #00ffcc;
     color: #0b0f19;
 }
+
+#inventory-bar {
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    color: #ffaa00;
+    border-bottom: 1px dashed #00ffcc;
+    padding-bottom: 8px;
+}
