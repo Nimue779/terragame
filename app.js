@@ -62,7 +62,7 @@ const storyData = {
         ]
     },
     nav_logs: {
-        text: "To be continued! You survived Hour 1 of your Terra project setup.",
+        text: "To be continued! You survived 2 hours of your Terra project setup.",
         choices: [
             { text: "Play Again", nextNode: "stasis_pod" }
         ]
