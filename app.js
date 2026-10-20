@@ -76,6 +76,11 @@ function startGame() {
 }
 //updates screen with new choices
 function showScene(nodeId) {
+
+    //resets inventory when returning to stasis pod
+    if (nodeId === "stasis_pod") {
+        playerInventory = [];
+    }
     const currentScene = storyData[nodeId];
     textElement.innerText = currentScene.text;
     buttonBox.innerHTML = "";
