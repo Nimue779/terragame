@@ -18,3 +18,27 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
 }
+
+#text {
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+    gap: 12px;
+}
+
+button {
+    background-color: transparent;
+    color: #00ffcc;
+    border: 1px solid #00ffcc;
+    padding: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1rem;
+    text-align: left;
+    transition: 0.2s;
+}
+
+button:hover {
+    background-color: #00ffcc;
+    color: #0b0f19;
+}
