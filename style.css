@@ -50,3 +50,10 @@ button:hover {
     border-bottom: 1px dashed #00ffcc;
     padding-bottom: 8px;
 }
+
+#stats-bar {
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    color:#00ffcc;
+    font-weight: bold;
+}
