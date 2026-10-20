@@ -44,3 +44,28 @@ const storyData = {
         ]
     }
 };
+
+//kicks off the start of the story
+function startGame() {
+    showScene(stasis_pod);
+}
+//updates screen with new choices
+function showScene(nodeId) {
+    const currentScene = storyData[nodeId];
+    textElement.innerText = currentScene.text;
+    buttonBox.innerHTML = "";
+    //loops through previuos commands for each option
+    currentScene.choices.forEach(choice => {
+        const button = document.createElement('button');
+        button.innerText = choice.text;
+
+        button.addEventListener('click', () => {
+            showScene(choice.nextNode);
+        });
+
+        buttonBox.appendChild(button);
+    });
+
+}
+
+startGame();
