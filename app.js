@@ -19,8 +19,15 @@ function playClickSound() {
 
 //stats section
 let oxygen = 100;
-let health =100;
+let health = 100;
 let playerInventory = [];
+
+//consumbles effects
+const itemEffects = {
+    "Water Pouch": { healthBoost: 30, message: "You drank the Water Pouch. (+30 Health)" },
+    "Ration Pack": { healthBoost: 40, message: "You ate the Ration Pack. (+40 Health)" },
+    "O2 Canister": { oxygenBoost: 50, message: "You inhaled the O2 Canister. (+50 Oxygen)" } 
+};
 
 //holds storyline
 const storyData = {
@@ -74,7 +81,6 @@ const storyData = {
         text: "The bridge is dead silent apart from the hum of the dying computer banks. The Captain's chair is empty, and a coffee mug is floating in zero-G near the main viewpoints.",
         choices: [
             { text: "Check the ships navigation logs.", nextNode: "nav_logs" }
-
         ]
     },
     nav_logs: {
@@ -112,18 +118,73 @@ function startGame() {
     playerInventory = []; //resets inventory
     oxygen = 100;
     health = 100;
+
+    //unlock and show inventory
+    statsElement.innerText = `Oxygen: ${oxygen}% | Health: ${health}%`;
+    inventoryElement.innerText = "Inventory: Empty";
+
     showScene("stasis_pod");
+}
+
+// FIXED: Corrected typo from uodateInventoryUI to updateInventoryUI
+function updateInventoryUI() {
+    console.log("current Inventory Array:", playerInventory);
+
+    inventoryElement.innerHTML = "Inventory: ";
+
+    if (playerInventory.length === 0) {
+        inventoryElement.innerText = "Inventory: Empty";
+        return;
+    }
+
+    playerInventory.forEach((item, index) => {
+        if (itemEffects[item]) {
+            const useBtn = document.createElement('button');
+            useBtn.innerText = `[Use ${item}]`;
+            useBtn.style.marginLeft = "8px";
+            useBtn.style.padding = "2px 6px";
+            useBtn.style.fontSize = "0.8rem";
+            useBtn.style.cursor = "pointer";
+
+            useBtn.addEventListener('click', () => {
+                useItem(item, index);
+            });
+            inventoryElement.appendChild(useBtn);
+        } else {
+            // FIXED: Properly created an element span/badge for key items like Keycards
+            const itemSpan = document.createElement('span');
+            itemSpan.innerText = `[${item}]`;
+            itemSpan.style.marginLeft = "8px";
+            itemSpan.style.color = "#ffaa00";
+            itemSpan.style.fontWeight = "bold";
+            inventoryElement.appendChild(itemSpan);
+        }
+    });
+}
+
+function useItem(itemName, index) {
+    const effect = itemEffects[itemName];
+    if (!effect) return;
+
+    playClickSound();
+
+    if (effect.healthBoost) {
+        health = Math.min(100, health + effect.healthBoost);
+    }
+
+    if (effect.oxygenBoost) {
+        oxygen = Math.min(100, oxygen + effect.oxygenBoost);
+    }
+
+    //remove item after use
+    playerInventory.splice(index, 1);
+
+    statsElement.innerText = `Oxygen: ${oxygen}% | Health: ${health}%`;
+    updateInventoryUI();
 }
 
 //updates screen with new choices
 function showScene(nodeId) {
-
-    //resets inventory when returning to stasis pod
-    if (nodeId === "stasis_pod") {
-        playerInventory = [];
-        oxygen = 100;
-        health =100;
-    }
 
     //check for game over (dying from low oxygen or health)
     if (oxygen <= 0 || health <= 0) {
@@ -132,10 +193,11 @@ function showScene(nodeId) {
 
         const restartBTN = document.createElement('button');
         restartBTN.innerText = "Restart Simulation";
-        restartBTN.addEventListener('click', () => showScene("stasis_pod"));
+        restartBTN.addEventListener('click', () => showTitleScreen());
         buttonBox.appendChild(restartBTN);
 
         statsElement.innerText = "Oxygen: 0% | Health: 0%";
+        inventoryElement.innerText = "Inventory: Empty";
         return; //stops showing the regular scene
     }
 
@@ -192,15 +254,8 @@ function showScene(nodeId) {
 
     //update stats display
     statsElement.innerText = `Oxygen: ${oxygen}% | Health: ${health}%`;
-
-    //update inventory box at top of screen
-    if (playerInventory.length === 0) {
-        inventoryElement.innerText = "Inventory: Empty";
-    } else {
-        inventoryElement.innerText = "Inventory: " + playerInventory.join(", ");
-
-    }
-
+    updateInventoryUI();
 }
 
+//starts on title screen
 showTitleScreen();
