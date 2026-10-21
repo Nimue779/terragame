@@ -80,11 +80,32 @@ const storyData = {
     command_bridge: {
         text: "The bridge is dead silent apart from the hum of the dying computer banks. The Captain's chair is empty, and a coffee mug is floating in zero-G near the main viewpoints.",
         choices: [
-            { text: "Check the ships navigation logs.", nextNode: "nav_logs" }
+            {
+                text: "Search the emergency supply crate (take ration pack)",
+                nextNode: "brigdge_searched",
+                addItem: "Ration Pack"
+            },
+            { text: "Check the ship's navigation logs.", nextNode: "nav_logs" },
+            { text: "Head down corridor toward the escape hangar", nextNode: "escape_hangar" }
+        ]
+    },
+    bridge_searched: {
+        text: "You rifle through the crate and find a foi-sealed Ration Pack. You stash it safely in your suit pocket. The navigation console flashes warning lights nearby.",
+        choices: [
+            { text: "Check the ship's navigation logs.", nextNode: "nav_logs" },
+            { text: "Head down the corridor toward the escape hangar", nextNode: "escape_hangar" }
+        ]
+
+    }, 
+    escape_hangar: {
+        text: "You sprint down the dark corridor, your breathe echoing in your helmet. You reach the ecape hangar, but the primary shuttle is locked down behind an automated lockdwon grid.",
+        choices: [
+            { text: "Try to override the lockdown console", nextNode: "nav_logs" },
+            { text: "Turn back to the bridge", nextNode: "command_bridge" }
         ]
     },
     nav_logs: {
-        text: "To be continued! You survived 2 hours of your Terra project setup.",
+        text: "To be continued! You've successfully navigated the first part of Project Astraea.",
         choices: [
             { text: "Play Again", nextNode: "stasis_pod" }
         ]
