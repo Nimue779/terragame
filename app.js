@@ -21,6 +21,7 @@ function playClickSound() {
 let oxygen = 100;
 let health = 100;
 let playerInventory = [];
+let gameTimer = null; //tracks timers in bg
 
 //consumbles effects
 const itemEffects = {
@@ -130,6 +131,7 @@ const storyData = {
 
 //displays title screen and waits for the first click to start music
 function showTitleScreen() {
+    if (gameTimer) clearInterval(gameTimer); //stops timer at title screen
     textElement.innerText = "Project Astraea\n\nClick 'Initialize Systems' below to begin.";
     buttonBox.innerHTML = "";
     statsElement.innerText = "Oxygen: -- | Health: --";
@@ -158,8 +160,32 @@ function startGame() {
     statsElement.innerText = `Oxygen: ${oxygen}% | Health: ${health}%`;
     inventoryElement.innerText = "Inventory: Empty";
 
+    startOxygenTimer(); //starts the timer
     showScene("stasis_pod");
 }
+
+function startOxygenTimer() {
+    //clear any running timers
+    if (gameTimer) clearInterval(gameTimer);
+
+    //tick every 3 seconds
+    gameTimer = setInterval(() => {
+        //only drains if game is running and player is alive
+        if(oxygen > 0 && health > 0) {
+            oxygen -= 1;
+
+            //update stats bar as it happens
+            statsElement.innerText = `Oxygen: ${oxygen}% | Health: ${health}%`;
+
+            //if oxygen hits 0, stop timer and trigger game over
+            if (oxygen <= 0) {
+                clearInterval(gameTimer);
+                showScene("game_over_check"); //forced check
+            }
+        }
+    }, 3000); //3000 milliseconds to drain 1%
+}
+
 
 // FIXED: Corrected typo from uodateInventoryUI to updateInventoryUI
 function updateInventoryUI() {
