@@ -172,7 +172,7 @@ function showScene(nodeId) {
             }
 
             //oxygen drops by 10%
-            oxygen -= choice.oxygenCost !== undefined ? choice.oxygenCost : 10;
+            oxygen -= choice.oxygenCost !== undefined ? choice.oxygenCost : 5;
             //health drops by 5%
             health -= choice.healthCost !== undefined ? choice.healthCost : 5;
 
