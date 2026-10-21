@@ -23,6 +23,8 @@ body {
     margin-bottom: 25px;
     font-size: 1.1rem;
     gap: 12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 button {

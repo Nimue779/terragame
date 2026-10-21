@@ -183,6 +183,24 @@ function useItem(itemName, index) {
     updateInventoryUI();
 }
 
+function typeWriter(text, i = 0, callback) {
+    if (i === 0) {
+        textElement.innerText = "";
+        buttonBox.innerHTML = ""; //hides the buttons while text is printing. prevents user clicking too early
+    }
+
+    if (i < text.length) {
+        textElement.innerText += text.charAt(i);
+        setTimeout(() => typeWriter(text, i + 1, callback), 20); //20ms per character
+    } else {
+        //wait a bit before showing choices
+        setTimeout(() => {
+            if (callback) callback();  //renders buttons once printing in complete
+        }, 400);
+        
+    }
+}
+
 //updates screen with new choices
 function showScene(nodeId) {
 
@@ -202,60 +220,49 @@ function showScene(nodeId) {
     }
 
     const currentScene = storyData[nodeId];
-    textElement.innerText = currentScene.text;
-    buttonBox.innerHTML = "";
 
-    //loops through previuos commands for each option
-    currentScene.choices.forEach(choice => {
-
-        //if a choice requires an item a player doesnt have, dont show the choice
-        if (choice.requiredItem && !playerInventory.includes(choice.requiredItem)) {
-            return;
-        }
-
-        const button = document.createElement('button');
-        button.innerText = choice.text;
-
-        button.addEventListener('click', () => {
-
-            //play click sound
-            playClickSound();
-
-            //adds items rewarded from choices that player does not already have
-            if (choice.addItem && !playerInventory.includes(choice.addItem)) {
-                playerInventory.push(choice.addItem);
+    typeWriter(currentScene.text, 0, () => {
+        currentScene.choices.forEach(choice => {
+            if (choice.requiredItem && !playerInventory.includes(choice.requiredItem)) {
+                return;
             }
 
-            if (choice.consumeItem) {
-                const itemIndex = playerInventory.indexOf(choice.consumeItem);
-                if (itemIndex > -1) {
-                    playerInventory.splice(itemIndex, 1);
+            const button = document.createElement('button');
+            button.innerText = choice.text;
+
+            button.addEventListener('click', () => {
+                playClickSound();
+
+                if (choice.addItem && !playerInventory.includes(choice.addItem)) {
+                    playerInventory.push(choice.addItem);
                 }
-            }
 
-            //oxygen drops by 10%
-            oxygen -= choice.oxygenCost !== undefined ? choice.oxygenCost : 5;
-            //health drops by 5%
-            health -= choice.healthCost !== undefined ? choice.healthCost : 5;
+                if (choice.consumeItem) {
+                    const itemIndex = playerInventory.indexOf(choice.consumeItem);
+                    if (itemIndex > -1) {
+                        playerInventory.splice(itemIndex, 1);
+                    }
+                }
 
-            //restore oxygen if the choice says
-            if (choice.oxygenBoost) {
-                oxygen = Math.min(100, oxygen + choice.oxygenBoost);
-            }
-            //restore health when a consumable is found
-            if (choice.healthBoost) {
-                health = Math.min(100, health + choice.healthBoost);
-            }
-            showScene(choice.nextNode);
+                oxygen -= choice.oxygenCost !== undefined ? choice.oxygenCost : 5;
+                health -= choice.healthCost !== undefined ? choice.healthCost : 5;
+
+                if (choice.oxygenBoost) {
+                    oxygen = Math.min(100, oxygen + choice.oxygenBoost);
+                }
+                if (choice.healthBoost) {
+                    health = Math.min(100, health + choice.healthBoost);
+                }
+                showScene(choice.nextNode);
+            });
+
+            buttonBox.appendChild(button);
         });
-
-        buttonBox.appendChild(button);
     });
 
-    //update stats display
     statsElement.innerText = `Oxygen: ${oxygen}% | Health: ${health}%`;
     updateInventoryUI();
 }
 
-//starts on title screen
+// Load title screen on start
 showTitleScreen();
