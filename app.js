@@ -135,11 +135,14 @@ function showScene(nodeId) {
 
             //oxygen drops by 10%
             oxygen -= choice.oxygenCost !== undefined ? choice.oxygenCost : 10;
+            //health drops by 5%
+            health -= choice.healthCost !== undefined ? choice.healthCost : 5;
 
             //restore oxygen if the choice says
             if (choice.oxygenBoost) {
                 oxygen = Math.min(100, oxygen + choice.oxygenBoost);
             }
+            //restore health when a consumable is found
             if (choice.healthBoost) {
                 health = Math.min(100, health + choice.healthBoost);
             }
