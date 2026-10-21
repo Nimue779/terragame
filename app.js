@@ -57,7 +57,7 @@ const storyData = {
                 text: "Open the emergency hatch (take O2 canister)",
                 nextNode: "got_o2",
                 addItem: "O2 Canister"
-            }
+            },
             { text: "Back to pod door", nextNode: "stasis_pod" },
             { text: "Try to open the door using the keycard", nextNode: "command_bridge"}
         ]
