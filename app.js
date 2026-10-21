@@ -240,7 +240,7 @@ function useItem(itemName, index) {
 
     //play item effects
     itemAudio.currentTime = 0;
-    itemAudio.play(0.catch(err => console.log("Audio block:", err));
+    itemAudio.play().catch(err => console.log("Audio block:", err));
 
     if (effect.healthBoost) {
         health = Math.min(100, health + effect.healthBoost);
