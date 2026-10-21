@@ -126,12 +126,22 @@ function showScene(nodeId) {
                 playerInventory.push(choice.addItem);
             }
 
+            if (choice.consumeItem) {
+                const itemIndex = playerInventory.indexOf(choice.consumeItem);
+                if (itemIndex > -1) {
+                    playerInventory.splice(itemIndex, 1);
+                }
+            }
+
             //oxygen drops by 10%
             oxygen -= choice.oxygenCost !== undefined ? choice.oxygenCost : 10;
 
             //restore oxygen if the choice says
             if (choice.oxygenBoost) {
                 oxygen = Math.min(100, oxygen + choice.oxygenBoost);
+            }
+            if (choice.healthBoost) {
+                health = Math.min(100, health + choice.healthBoost);
             }
             showScene(choice.nextNode);
         });
