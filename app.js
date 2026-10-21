@@ -311,7 +311,7 @@ function showScene(nodeId) {
                     }
                 }
 
-                oxygen -= choice.oxygenCost !== undefined ? choice.oxygenCost : 5;
+                oxygen -= choice.oxygenCost !== undefined ? choice.oxygenCost : 0;
                 health -= choice.healthCost !== undefined ? choice.healthCost : 5;
 
                 if (choice.oxygenBoost) {
