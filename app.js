@@ -2,27 +2,24 @@
 const textElement = document.getElementById('text');
 const buttonBox = document.getElementById('button-box');
 const inventoryElement = document.getElementById('inventory-bar');
+const statsElement = document.getElementById('stats-bar');
 
-//loads sound files
+//sound effects and bg music
+const clickAudio = new Audio('click.mp3');
+clickAudio.volume = 0.4;
+
+const bgMusic = new Audio('ambience.mp3');
+bgMusic.loop = true; //loops bg music forever
+bgMusic.volume = 0.3; //soft volume, not too loud
+
 function playClickSound() {
-    const clickAudio = new Audio('click.mp3');
-    clickAudio.volume = 0.4; //40 percent volume, not too loud
-    clickAudio.play().catch(err => console.log("Audio block prevented play:", err));
-}
-
-function playItemSound() {
-    const itemAudio = new Audio('ambience.mp3');
-    itemAudio.volume = 0.5;
-    itemAudio.play().catch(err => console.log("Audio block prevented play:", err));
+    clickAudio.currentTime = 0; //clicksplay instantly
+    clickAudio.play().catch(err => console.log("Click audio block:", err));
 }
 
 //stats section
-const statsElement = document.getElementById('stats-bar');
-
 let oxygen = 100;
 let health =100;
-
-//what items players are holding
 let playerInventory = [];
 
 //holds storyline
@@ -90,9 +87,14 @@ const storyData = {
 
 //kicks off the start of the story
 function startGame() {
+    bgMusic.play().catch(err => console.log("Backgound music autoplay waiting for interaction"));
+
     playerInventory = []; //resets inventory
+    oxygen = 100;
+    health = 100;
     showScene("stasis_pod");
 }
+
 //updates screen with new choices
 function showScene(nodeId) {
 
