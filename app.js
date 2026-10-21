@@ -82,7 +82,7 @@ const storyData = {
         choices: [
             {
                 text: "Search the emergency supply crate (take ration pack)",
-                nextNode: "brigdge_searched",
+                nextNode: "bridge_searched",
                 addItem: "Ration Pack"
             },
             { text: "Check the ship's navigation logs.", nextNode: "nav_logs" },
