@@ -3,6 +3,19 @@ const textElement = document.getElementById('text');
 const buttonBox = document.getElementById('button-box');
 const inventoryElement = document.getElementById('inventory-bar');
 
+//loads sound files
+function playClickSound() {
+    const clickAudio = new Audio('click.mp3');
+    clickAudio.volume = 0.4; //40 percent volume, not too loud
+    clickAudio.play().catch(err => console.log("Audio block prevented play:", err));
+}
+
+function playItemSound() {
+    const itemAudio = new Audio('ambience.mp3');
+    itemAudio.volume = 0.5;
+    itemAudio.play().catch(err => console.log("Audio block prevented play:", err));
+}
+
 //stats section
 const statsElement = document.getElementById('stats-bar');
 
@@ -120,6 +133,9 @@ function showScene(nodeId) {
         button.innerText = choice.text;
 
         button.addEventListener('click', () => {
+
+            //play click sound
+            playClickSound();
 
             //adds items rewarded from choices that player does not already have
             if (choice.addItem && !playerInventory.includes(choice.addItem)) {
