@@ -89,13 +89,13 @@ const storyData = {
 
 //displays title screen and waits for the first click to start music
 function showTitleScreen() {
-    textElement.innerText = "Project Astraea\n\nClick 'Get started' below to begin.";
+    textElement.innerText = "Project Astraea\n\nClick 'Initialize Systems' below to begin.";
     buttonBox.innerHTML = "";
-    statsElements.innerText = "Oxygen: -- | Health: --";
+    statsElement.innerText = "Oxygen: -- | Health: --";
     inventoryElement.innerText = "Inventory: Locked";
 
     const startBtn = document.createElement('button');
-    startBtn.innerText = "Get Started";
+    startBtn.innerText = "▶ Initialize Systems";
     startBtn.addEventListener('click', () => {
         //first click unlocks browser audio, starts music
         bgMusic.play().catch(err => console.log("Music play blocked:", err));
