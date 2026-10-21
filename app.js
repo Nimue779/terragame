@@ -107,7 +107,7 @@ const storyData = {
     nav_logs: {
         text: "To be continued! You've successfully navigated the first part of Project Astraea.",
         choices: [
-            { text: "Play Again", nextNode: "stasis_pod" }
+            { text: "Play Again", showTitle: true }
         ]
     }
 };
@@ -253,6 +253,12 @@ function showScene(nodeId) {
 
             button.addEventListener('click', () => {
                 playClickSound();
+
+                //restrt game sned to title screen
+                if (choice.showTitle) {
+                    showTitleScreen();
+                    return;
+                }
 
                 if (choice.addItem && !playerInventory.includes(choice.addItem)) {
                     playerInventory.push(choice.addItem);
