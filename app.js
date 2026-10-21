@@ -85,10 +85,30 @@ const storyData = {
     }
 };
 
+//main menu, title screen
+
+//displays title screen and waits for the first click to start music
+function showTitleScreen() {
+    textElement.innerText = "Project Astraea\n\nClick 'Get started' below to begin.";
+    buttonBox.innerHTML = "";
+    statsElements.innerText = "Oxygen: -- | Health: --";
+    inventoryElement.innerText = "Inventory: Locked";
+
+    const startBtn = document.createElement('button');
+    startBtn.innerText = "Get Started";
+    startBtn.addEventListener('click', () => {
+        //first click unlocks browser audio, starts music
+        bgMusic.play().catch(err => console.log("Music play blocked:", err));
+        playClickSound();
+
+        startGame();
+    });
+
+    buttonBox.appendChild(startBtn);
+}
+
 //kicks off the start of the story
 function startGame() {
-    bgMusic.play().catch(err => console.log("Backgound music autoplay waiting for interaction"));
-
     playerInventory = []; //resets inventory
     oxygen = 100;
     health = 100;
@@ -183,4 +203,4 @@ function showScene(nodeId) {
 
 }
 
-startGame();
+showTitleScreen();
