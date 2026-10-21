@@ -8,6 +8,12 @@ const statsElement = document.getElementById('stats-bar');
 const clickAudio = new Audio('click.mp3');
 clickAudio.volume = 0.4;
 
+const itemAudio = new Audio('use_item.mp3'); //sound effects for eating, drinking, oxygen
+itemAudio.volume = 0.4;
+
+const alarmAudio = new Audio('alarm.mp3');
+alarmAudio.volume = 0.3;
+
 const bgMusic = new Audio('ambience.mp3');
 bgMusic.loop = true; //loops bg music forever
 bgMusic.volume = 0.3; //soft volume, not too loud
@@ -177,6 +183,11 @@ function startOxygenTimer() {
             //update stats bar as it happens
             statsElement.innerText = `Oxygen: ${oxygen}% | Health: ${health}%`;
 
+            //play alert
+            if (oxygen === 20) {
+                alarmAudio.Audio().catch(err => console.log("Alarm audio block:", err));
+            }
+
             //if oxygen hits 0, stop timer and trigger game over
             if (oxygen <= 0) {
                 clearInterval(gameTimer);
@@ -227,7 +238,9 @@ function useItem(itemName, index) {
     const effect = itemEffects[itemName];
     if (!effect) return;
 
-    playClickSound();
+    //play item effects
+    itemAudio.currentTime = 0;
+    itemAudio.play(0.catch(err => console.log("Audio block:", err));
 
     if (effect.healthBoost) {
         health = Math.min(100, health + effect.healthBoost);
