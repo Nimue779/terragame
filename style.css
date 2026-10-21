@@ -59,3 +59,22 @@ button:hover {
     color: #ff3333;
     font-weight: bold;
 }
+
+#button-box button {
+    background-color: #1a0000;
+    color: #ff3333;
+    border: 1px solid #ff0000;
+    padding: 10px, 15px;
+    margin: 5px 0;
+    width: 100%;
+    text-align: left;
+    font-family: monospace;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+#button-box button:hover {
+    background-color: #910202d0;
+    color: #000000;
+    box-shadow: 0 0 10px #ff0000;
+}
