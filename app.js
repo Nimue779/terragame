@@ -53,10 +53,24 @@ const storyData = {
     diagnostic_screen: {
         text: "The screen flashes text through static: 'CRITICAL ERROR - Sector 4 depressurized. Crew status: UNKNOWN. Life support failing in 45 minutes.'",
         choices: [
+            {
+                text: "Open the emergency hatch (take O2 canister)",
+                nextNode: "got_o2",
+                addItem: "O2 Canister"
+            }
             { text: "Back to pod door", nextNode: "stasis_pod" },
             { text: "Try to open the door using the keycard", nextNode: "command_bridge"}
         ]
     },
+    got_o2: {
+        text: "You reach into the hatch and pull out an Emergency O2 Canister. You quickly secure it to your suit pack.",
+        choices: [
+            { text: "Back to the pod door", nextNode: "stasis_pod" },
+            { text: "Try to open the door using the keycard", nextNode: "command_bridge" },
+            
+        ]
+    },
+
     manual_release: {
         text: "You slam your shoulder against the lever. With a loud hiss, the pod glass pops open! You step out onto the cold metal floor of the Astrea, fcaing the heavy security vault door.",
         choices: [
@@ -261,7 +275,7 @@ function showScene(nodeId) {
                 }
 
                 if (choice.addItem && !playerInventory.includes(choice.addItem)) {
-                    playerInventory.push(choice.addItem);
+                    playerInventory.push(choice.addItem); 
                 }
 
                 if (choice.consumeItem) {
