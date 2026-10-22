@@ -144,7 +144,7 @@ const storyData = {
     riddle_fail: {
         text: "A harsh red error message flashes: 'ACCESS DENIED. Security penalty applied.' You lose 10% Oxygen and 15% Health.", 
         choices: [
-            { text: "Try the riddle again", nextNode: "security_riddle" }
+            { text: "Try the riddle again", nextNode: "security_riddle" },
             { text: "Retreat back to the escape hangar", nextNode: "escape_hangar" }
         ]
     },
