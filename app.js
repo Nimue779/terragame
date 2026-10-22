@@ -191,7 +191,7 @@ function startOxygenTimer() {
             //update stats bar as it happens
             statsElement.innerText = `Oxygen: ${oxygen}% | Health: ${health}%`;
 
-            //play alert (FIXED: changed .Audio() to .play())
+            //play alert
             if (oxygen === 20) {
                 alarmAudio.play().catch(err => console.log("Alarm audio block:", err));
             }
