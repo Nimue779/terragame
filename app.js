@@ -87,7 +87,7 @@ const storyData = {
     },
 
     manual_release: {
-        text: "You slam your shoulder against the lever. With a loud hiss, the pod glass pops open! You step out onto the cold metal floor of the Astrea, fcaing the heavy security vault door.",
+        text: "You slam your shoulder against the lever. With a loud hiss, the pod glass pops open! You step out onto the cold metal floor of the Astrea, facing the heavy security vault door.",
         choices: [
             { 
                 text: "Try to swipe your Maintenance Keycard to open the vault door",
@@ -119,7 +119,7 @@ const storyData = {
         ]
     },
     bridge_searched: {
-        text: "You rifle through the crate and find a foi-sealed Ration Pack. You stash it safely in your suit pocket. The navigation console flashes warning lights nearby.",
+        text: "You rifle through the crate and find a foil-sealed Ration Pack. You stash it safely in your suit pocket. The navigation console flashes warning lights nearby.",
         choices: [
             { text: "Check the ship's navigation logs.", nextNode: "nav_logs" },
             { text: "Head down the corridor toward the escape hangar", nextNode: "escape_hangar" }
@@ -127,7 +127,7 @@ const storyData = {
 
     }, 
     escape_hangar: {
-        text: "You sprint down the dark corridor, your breathe echoing in your helmet. You reach the ecape hangar, but the primary shuttle is locked down behind an automated lockdwon grid.",
+        text: "You sprint down the dark corridor, your breath echoing in your helmet. You reach the escape hangar, but the primary shuttle is locked down behind an automated lockdown grid.",
         choices: [
             { text: "Try to hack the security terminal", nextNode: "security_riddle" },
             { text: "Turn back to the bridge", nextNode: "command_bridge" }
