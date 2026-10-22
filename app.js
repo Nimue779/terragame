@@ -136,15 +136,16 @@ const storyData = {
     security_riddle: {
         text: "The terminal screen flashes a mandatory security riddle:\n\n'I speak without a mouth and hear without ears. I have no body, but come alive with the wind. What am I?'",
         choices: [ 
-            { text: "A: A Shadow", nextNode: "riddle_fail" },
+            { text: "A: A Shadow", nextNode: "riddle_fail", oxygenCost: 10, healthCost: 15 },
             { text: "B: An Echo", nextNode: "riddle_success" },
-            { text: "C: A Flame", nextNode: "riddle_fail" }
+            { text: "C: A Flame", nextNode: "riddle_fail", oxygenCost: 10, healthCost: 15 }
         ]
     },
     riddle_fail: {
-        text: "A harsh red error message flashes: 'ACCESS DENIED. Security penalty applied.' Your suit systems strain against the lockout.", 
+        text: "A harsh red error message flashes: 'ACCESS DENIED. Security penalty applied.' You lose 10% Oxygen and 15% Health.", 
         choices: [
             { text: "Try the riddle again", nextNode: "security_riddle" }
+            { text: "Retreat back to the escape hangar", nextNode: "escape_hangar" }
         ]
     },
     riddle_success: {
