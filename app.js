@@ -66,14 +66,22 @@ const storyData = {
                 addItem: "O2 Canister"
             },
             { text: "Back to pod door", nextNode: "stasis_pod" },
-            { text: "Try to open the door using the keycard", nextNode: "command_bridge"}
+            { 
+                text: "Try to open the door using the keycard",
+                nextNode: "command_bridge",
+                requiredItem: "Keycard"
+            },
         ]
     },
     got_o2: {
         text: "You reach into the hatch and pull out an Emergency O2 Canister. You quickly secure it to your suit pack.",
         choices: [
             { text: "Back to the pod door", nextNode: "stasis_pod" },
-            { text: "Try to open the door using the keycard", nextNode: "command_bridge" },
+            { 
+                text: "Try to open the door using the keycard",
+                nextNode: "command_bridge",
+                requiredItem: "Keycard"
+            },
             
         ]
     },
@@ -183,9 +191,9 @@ function startOxygenTimer() {
             //update stats bar as it happens
             statsElement.innerText = `Oxygen: ${oxygen}% | Health: ${health}%`;
 
-            //play alert
+            //play alert (FIXED: changed .Audio() to .play())
             if (oxygen === 20) {
-                alarmAudio.Audio().catch(err => console.log("Alarm audio block:", err));
+                alarmAudio.play().catch(err => console.log("Alarm audio block:", err));
             }
 
             //if oxygen hits 0, stop timer and trigger game over
@@ -238,7 +246,7 @@ function useItem(itemName, index) {
     const effect = itemEffects[itemName];
     if (!effect) return;
 
-    //play item effects
+    //play item effects (FIXED: corrected syntax for .play().catch())
     itemAudio.currentTime = 0;
     itemAudio.play().catch(err => console.log("Audio block:", err));
 
