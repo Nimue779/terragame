@@ -129,16 +129,35 @@ const storyData = {
     escape_hangar: {
         text: "You sprint down the dark corridor, your breathe echoing in your helmet. You reach the ecape hangar, but the primary shuttle is locked down behind an automated lockdwon grid.",
         choices: [
-            { text: "Try to override the lockdown console", nextNode: "nav_logs" },
+            { text: "Try to hack the security terminal", nextNode: "security_riddle" },
             { text: "Turn back to the bridge", nextNode: "command_bridge" }
+        ]
+    },
+    security_riddle: {
+        text: "The terminal screen flashes a mandatory security riddle:\n\n'I speak without a mouth and hear without ears. I have no body, but come alive with the wind. What am I?'",
+        choices: [ 
+            { text: "A: A Shadow", nextNode: "riddle_fail" },
+            { text: "B: An Echo", nextNode: "riddle_success" },
+            { text: "C: A Flame", nextNode: "riddle_fail" }
+        ]
+    },
+    riddle_fail: {
+        text: "A harsh red error message flashes: 'ACCESS DENIED. Security penalty applied.' Your suit systems strain against the lockout.", 
+        choices: [
+            { text: "Try the riddle again", nextNode: "security_riddle" }
+        ]
+    },
+    riddle_success: {
+        text: "A green light washes over the console. 'OVERRIDE ACCEPTED.' The heavy hangar bay doors grind open, revealing the rescue shuttle!",
+        choices: [
+            { text: "Board the escape shuttle and launch", nextNode: "nav_logs" }
         ]
     },
     nav_logs: {
         text: "To be continued! You've successfully navigated the first part of Project Astraea.",
-        choices: [
-            { text: "Play Again", showTitle: true }
-        ]
+        { text: "Play Again", showTitle: true }
     }
+
 };
 
 //main menu, title screen
