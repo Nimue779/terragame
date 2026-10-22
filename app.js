@@ -155,8 +155,11 @@ const storyData = {
     },
     nav_logs: {
         text: "To be continued! You've successfully navigated the first part of Project Astraea.",
-        { text: "Play Again", showTitle: true }
+        choices: [
+            { text: "Play Again", showTitle: true }
+        ]
     }
+
 
 };
 
