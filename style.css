@@ -78,3 +78,27 @@ button:hover {
     color: #000000;
     box-shadow: 0 0 10px #ff0000;
 }
+
+/* flashing red */
+
+@keyframes damageFlash {
+    0% { background-color: rgba(255, 0, 0, 0.6); }
+    100% { background-color: transparent; }
+}
+
+.damage-effect {
+    animation: damageFlash 0.4s ease-out;
+}
+
+/*pulsing o2 low oxygen */
+@keyframes lowOxygenPulse {
+    0% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.4); }
+    50% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.9); }
+    100% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.4); }
+}
+
+.low-o2-alert {
+    border: 2px solid #ff0000 !important;
+    animation: lowOxygenPulse 1.2s infinite ease-in-out;
+}
+

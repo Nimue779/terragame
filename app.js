@@ -82,10 +82,8 @@ const storyData = {
                 nextNode: "command_bridge",
                 requiredItem: "Keycard"
             },
-            
         ]
     },
-
     manual_release: {
         text: "You slam your shoulder against the lever. With a loud hiss, the pod glass pops open! You step out onto the cold metal floor of the Astrea, facing the heavy security vault door.",
         choices: [
@@ -124,7 +122,6 @@ const storyData = {
             { text: "Check the ship's navigation logs.", nextNode: "nav_logs" },
             { text: "Head down the corridor toward the escape hangar", nextNode: "escape_hangar" }
         ]
-
     }, 
     escape_hangar: {
         text: "You sprint down the dark corridor, your breath echoing in your helmet. You reach the escape hangar, but the primary shuttle is locked down behind an automated lockdown grid.",
@@ -160,11 +157,32 @@ const storyData = {
             { text: "Play Again", showTitle: true }
         ]
     }
-
-
 };
 
-//main menu, title screen
+// --- SAVE / LOAD FUNCTIONS ---
+function saveGame(nodeId) {
+    const saveData = {
+        oxygen: oxygen,
+        health: health,
+        inventory: playerInventory,
+        currentNode: nodeId
+    };
+    localStorage.setItem('astraea_save', JSON.stringify(saveData));
+}
+
+function loadGame() {
+    const savedData = localStorage.getItem('astraea_save');
+    if (!savedData) return;
+
+    const data = JSON.parse(savedData);
+    oxygen = data.oxygen;
+    health = data.health;
+    playerInventory = data.inventory;
+
+    bgMusic.play().catch(err => console.log("Music play blocked:", err));
+    startOxygenTimer();
+    showScene(data.currentNode);
+}
 
 //displays title screen and waits for the first click to start music
 function showTitleScreen() {
@@ -177,14 +195,24 @@ function showTitleScreen() {
     const startBtn = document.createElement('button');
     startBtn.innerText = "▶ Initialize Systems";
     startBtn.addEventListener('click', () => {
-        //first click unlocks browser audio, starts music
         bgMusic.play().catch(err => console.log("Music play blocked:", err));
         playClickSound();
-
         startGame();
     });
 
     buttonBox.appendChild(startBtn);
+
+    //continue button, only shows if a save exists
+    if (localStorage.getItem('astraea_save')) {
+        const continueBtn = document.createElement('button');
+        continueBtn.innerText = "▶ Continue Simulation";
+        continueBtn.style.marginTop = "8px";
+        continueBtn.addEventListener('click', () => {
+            playClickSound();
+            loadGame();
+        });
+        buttonBox.appendChild(continueBtn);
+    }
 }
 
 //kicks off the start of the story
@@ -202,37 +230,32 @@ function startGame() {
 }
 
 function startOxygenTimer() {
-    //clear any running timers
     if (gameTimer) clearInterval(gameTimer);
 
-    //tick every 3 seconds
     gameTimer = setInterval(() => {
-        //only drains if game is running and player is alive
-        if(oxygen > 0 && health > 0) {
+        if (oxygen > 0 && health > 0) {
             oxygen -= 1;
-
-            //update stats bar as it happens
             statsElement.innerText = `Oxygen: ${oxygen}% | Health: ${health}%`;
 
-            //play alert
-            if (oxygen === 20) {
-                alarmAudio.play().catch(err => console.log("Alarm audio block:", err));
+            const container = document.getElementById('game-container');
+            if (oxygen <= 20) {
+                container.classList.add('low-o2-alert');
+                if (oxygen === 20) {
+                    alarmAudio.play().catch(err => console.log("Alarm audio block", err));
+                }
+            } else {
+                container.classList.remove('low-o2-alert');
             }
 
-            //if oxygen hits 0, stop timer and trigger game over
             if (oxygen <= 0) {
                 clearInterval(gameTimer);
-                showScene("game_over_check"); //forced check
+                showScene("game_over_check");
             }
         }
-    }, 3000); //3000 milliseconds to drain 1%
+    }, 3000); 
 }
 
-
-// FIXED: Corrected typo from uodateInventoryUI to updateInventoryUI
 function updateInventoryUI() {
-    console.log("current Inventory Array:", playerInventory);
-
     inventoryElement.innerHTML = "Inventory: ";
 
     if (playerInventory.length === 0) {
@@ -254,7 +277,6 @@ function updateInventoryUI() {
             });
             inventoryElement.appendChild(useBtn);
         } else {
-            // FIXED: Properly created an element span/badge for key items like Keycards
             const itemSpan = document.createElement('span');
             itemSpan.innerText = `[${item}]`;
             itemSpan.style.marginLeft = "8px";
@@ -269,7 +291,6 @@ function useItem(itemName, index) {
     const effect = itemEffects[itemName];
     if (!effect) return;
 
-    //play item effects (FIXED: corrected syntax for .play().catch())
     itemAudio.currentTime = 0;
     itemAudio.play().catch(err => console.log("Audio block:", err));
 
@@ -281,9 +302,7 @@ function useItem(itemName, index) {
         oxygen = Math.min(100, oxygen + effect.oxygenBoost);
     }
 
-    //remove item after use
     playerInventory.splice(index, 1);
-
     statsElement.innerText = `Oxygen: ${oxygen}% | Health: ${health}%`;
     updateInventoryUI();
 }
@@ -291,26 +310,33 @@ function useItem(itemName, index) {
 function typeWriter(text, i = 0, callback) {
     if (i === 0) {
         textElement.innerText = "";
-        buttonBox.innerHTML = ""; //hides the buttons while text is printing. prevents user clicking too early
+        buttonBox.innerHTML = ""; 
     }
 
     if (i < text.length) {
         textElement.innerText += text.charAt(i);
-        setTimeout(() => typeWriter(text, i + 1, callback), 20); //20ms per character
+        setTimeout(() => typeWriter(text, i + 1, callback), 20); 
     } else {
-        //wait a bit before showing choices
         setTimeout(() => {
-            if (callback) callback();  //renders buttons once printing in complete
+            if (callback) callback();  
         }, 400);
-        
     }
+}
+
+function triggerDamageFlash() {
+    const container = document.getElementById('game-container');
+    container.classList.add('damage-effect');
+    setTimeout(() => {
+        container.classList.remove('damage-effect');
+    }, 400);
 }
 
 //updates screen with new choices
 function showScene(nodeId) {
-
-    //check for game over (dying from low oxygen or health)
     if (oxygen <= 0 || health <= 0) {
+        if (gameTimer) clearInterval(gameTimer);
+        localStorage.removeItem('astraea_save');
+
         textElement.innerText = "CRITICAL FAILURE: Life support exhausted or vital sign stopped. You died.";
         buttonBox.innerHTML = "";
 
@@ -321,10 +347,15 @@ function showScene(nodeId) {
 
         statsElement.innerText = "Oxygen: 0% | Health: 0%";
         inventoryElement.innerText = "Inventory: Empty";
-        return; //stops showing the regular scene
+        document.getElementById('game-container').classList.remove('low-o2-alert');
+
+        return; 
     }
 
     const currentScene = storyData[nodeId];
+    if (!currentScene) return;
+
+    saveGame(nodeId);
 
     typeWriter(currentScene.text, 0, () => {
         currentScene.choices.forEach(choice => {
@@ -338,7 +369,6 @@ function showScene(nodeId) {
             button.addEventListener('click', () => {
                 playClickSound();
 
-                //restrt game sned to title screen
                 if (choice.showTitle) {
                     showTitleScreen();
                     return;
@@ -355,8 +385,17 @@ function showScene(nodeId) {
                     }
                 }
 
-                oxygen -= choice.oxygenCost !== undefined ? choice.oxygenCost : 0;
-                health -= choice.healthCost !== undefined ? choice.healthCost : 5;
+                const oxCost = choice.oxygenCost !== undefined ? choice.oxygenCost : 0;
+                const hlCost = choice.healthCost !== undefined ? choice.healthCost : 0;
+
+                oxygen -= oxCost;
+                health -= hlCost;
+
+                if (oxCost > 0 || hlCost > 0) {
+                    triggerDamageFlash();
+                    alarmAudio.currentTime = 0;
+                    alarmAudio.play().catch(err => console.log("Alarm block:", err));
+                }
 
                 if (choice.oxygenBoost) {
                     oxygen = Math.min(100, oxygen + choice.oxygenBoost);
