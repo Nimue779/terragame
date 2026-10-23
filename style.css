@@ -48,7 +48,7 @@ button:hover {
 #inventory-bar {
     margin-bottom: 15px;
     font-size: 0.9rem;
-    color: #ffaa00;
+    color: #0f6;
     border-bottom: 1px dashed #00ffcc;
     padding-bottom: 8px;
 }
@@ -61,9 +61,9 @@ button:hover {
 }
 
 #button-box button {
-    background-color: #1a0000;
-    color: #ff3333;
-    border: 1px solid #ff0000;
+    background-color: #002b11;
+    color: #e1ebe5;
+    border: 1px solid #0f6;
     padding: 10px, 15px;
     margin: 5px 0;
     width: 100%;
@@ -74,9 +74,9 @@ button:hover {
 }
 
 #button-box button:hover {
-    background-color: #910202d0;
-    color: #000000;
-    box-shadow: 0 0 10px #ff0000;
+    background-color: #005922;
+    color: #fcfafa;
+    box-shadow: 0 0 10px #005922;
 }
 
 /* flashing red */
