@@ -112,7 +112,8 @@ const storyData = {
                 nextNode: "bridge_searched",
                 addItem: "Ration Pack"
             },
-            { text: "Check the ship's navigation logs.", nextNode: "nav_logs" },
+            { text: "Enter the Reactor Control Hallway.", nextNode: "reactor_hall" },
+            { text: "Enter the Medical Bay.", nextNode: "medical_bay" },
             { text: "Head down corridor toward the escape hangar", nextNode: "escape_hangar" }
         ]
     },
@@ -123,6 +124,49 @@ const storyData = {
             { text: "Head down the corridor toward the escape hangar", nextNode: "escape_hangar" }
         ]
     }, 
+    reactor_hall: {
+        text: "You push open the heavy blast door into Reactor Control. The floor vibrates violently, and a blinding blue glow illuminates toxic steam spewing from broken pipes.",
+        choices: [
+            { text: "Reroute power manually (takes suit damage)", nextNode: "reactor_rerouted", healthCost: 20},
+            { text: "Search the emergency locker on the wall", nextNode: "reactor_locker", addItem: "Water Pouch" },
+            { text: "Retreat to the command bridge", nextNode: "command_bridge" }
+        ]
+    },
+    reactor_rerouted: {
+        text: "Sparks shower over your helmet as you override the circuit breakers! Emergency power restores to the hangar bay terminal! You lose 20% health from heat exposure, but the pathway is clear.", 
+        choices: [
+            { text: "Head directly to the escape_hangar", nextNode: "escape_hangar" }
+        ]
+    },
+    reactor_locker: {
+        text: "You pry open the emergency locker and find a Water Pouch! You stash it in your pack.",
+        choices: [
+            { text: "Reroute power manually (Takes suit damage)", nextNode: "reactor_rerouted", healthCost: 20 },
+            { text: "Retreat to the command bridge", nextNode: "command_bridge" }
+        ]
+    },
+    medical_bay: {
+        text: "The medical bay is cold and dimly lit. A shattered specimen container lies on the floor, and a faint hissing sound comes from an open O2 canister.",
+        choices: [
+            { text: "inspect the O2 canister (refill suit)", nextNode: "o2_refill" },
+            { text: "Search doctor's desk", nextNode: "desk_searched", addItem: "Ration Pack" },
+            { text: "Head towards the escape hangar", nextNode: "escape_hangar" }
+        ]
+    },
+    o2_refill: {
+        text: "You hook your suit nozzle directly into the O2 wall tap. Oxygen rushes into your tanks! (+30% oxygen)",
+        choices: [
+            { text: "Search doctor's desk", nextNode: "desk_searched", addItem: "Ration Pack" },
+            { text: "Head towards the escape hangar", nextNode: "escape_hangar" }
+        ]
+    },
+    desk_searched: {
+        text: "In a locked desk drawer, you discover a preserved Ration Pack and stash it away",
+        choices: [
+            { text: "Head towards the escape hangar", nextNode: "escape_hangar" }
+        ]
+
+    },
     escape_hangar: {
         text: "You sprint down the dark corridor, your breath echoing in your helmet. You reach the escape hangar, but the primary shuttle is locked down behind an automated lockdown grid.",
         choices: [
