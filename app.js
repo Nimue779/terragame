@@ -156,8 +156,8 @@ const storyData = {
     o2_refill: {
         text: "You hook your suit nozzle directly into the O2 wall tap. Oxygen rushes into your tanks! (+30% oxygen)",
         choices: [
-            { text: "Search doctor's desk", nextNode: "desk_searched", addItem: "Ration Pack" },
-            { text: "Head towards the escape hangar", nextNode: "escape_hangar" }
+            { text: "Search doctor's desk", nextNode: "desk_searched", addItem: "Ration Pack", oxygenBoost: 30 },
+            { text: "Head towards the escape hangar", nextNode: "escape_hangar", oxygenBoost: 30 }
         ]
     },
     desk_searched: {
