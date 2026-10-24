@@ -12,7 +12,7 @@ const itemAudio = new Audio('use_item.mp3'); //sound effects for eating, drinkin
 itemAudio.volume = 0.4;
 
 const alarmAudio = new Audio('alarm.mp3');
-alarmAudio.volume = 0.3;
+alarmAudio.volume = 0.3;  //plays when health or oxygen gets too low
 
 const bgMusic = new Audio('ambience.mp3');
 bgMusic.loop = true; //loops bg music forever
@@ -273,7 +273,7 @@ function startGame() {
     showScene("stasis_pod");
 }
 
-function startOxygenTimer() {
+function startOxygenTimer() {    //oxygen will tick down by 1% every 3 seconds
     if (gameTimer) clearInterval(gameTimer);
 
     gameTimer = setInterval(() => {
