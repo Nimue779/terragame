@@ -99,7 +99,7 @@ const storyData = {
         ]
     },
     door_fail: {
-        text: "You strain with all your might, but the heavy steel doesn't budge. Your arms burn from the effort, and you decide you need a better way through.",
+        text: "You pull with all your might, but the heavy steel doesn't budge. Your arms burn from the effort, and you decide you need a better way through.",
         choices: [
             { text: "Try something else", nextNode: "stasis_pod" }
         ]
@@ -118,7 +118,7 @@ const storyData = {
         ]
     },
     bridge_searched: {
-        text: "You rifle through the crate and find a foil-sealed Ration Pack. You stash it safely in your suit pocket. The navigation console flashes warning lights nearby.",
+        text: "You rifle through the crate and find a foil-sealed Ration Pack. You stash it safely in your suit pocket. Nearby, the navigation console flashes red warning lights.",
         choices: [
             { text: "Check the ship's navigation logs.", nextNode: "nav_logs" },
             { text: "Head down the corridor toward the escape hangar", nextNode: "escape_hangar" }
