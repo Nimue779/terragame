@@ -85,7 +85,7 @@ const storyData = {
         ]
     },
     manual_release: {
-        text: "You slam your shoulder against the lever. With a loud hiss, the pod glass pops open! You step out onto the cold metal floor of the Astrea, facing the heavy security vault door.",
+        text: "You slam your shoulder against the lever. With a loud hiss, the pod glass pops open! You step out onto the cold metal floor of the Astraea, facing the heavy security vault door.",
         choices: [
             { 
                 text: "Try to swipe your Maintenance Keycard to open the vault door",
@@ -196,7 +196,7 @@ const storyData = {
         ]
     },
     nav_logs: {
-        text: "To be continued! You've successfully navigated the first part of Project Astraea.",
+        text: "MISSION ACCOMPLISHED\n\nThe thrusters roar to life as the shuttle detaches from the Astraea, sailing clear into deep space. You have survived Project Astraea.",
         choices: [
             { text: "Play Again", showTitle: true }
         ]
